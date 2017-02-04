@@ -35,7 +35,7 @@ class SpreadsheetValidator
       valid ||= row['phone'].match(/^[^0]\d{2}\.[^0]\d{2}\.\d{4}/)
       valid ||= row['phone'].match(/^\W\d{3}\W[^0]d{2}-\d{4}/)
 
-      valid.nil? ? invalid = "#{row['phone']} not a valid phone number." : invalid = nil
+      invalid = valid.nil? ? "#{row['phone']} not a valid phone number." : nil
       invalids << invalid
     end
     invalids
