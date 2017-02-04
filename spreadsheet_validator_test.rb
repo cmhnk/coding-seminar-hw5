@@ -9,13 +9,7 @@ class SpreadsheetValidatorTest < Minitest::Test
     @test = SpreadsheetValidator.new('./homework.csv')
   end
 
-  def test_phone_valid
-    valid_phones = [true, true, false, true, false, true, false]
-    valid_lines = [1, 2, 4, 6]
-    assert_equal valid_phones, @test.phone_valid?
-  end
-
-  def test_invalid_line_reporter
+  def test_invalid_phone_reporter
     invalids = [
       nil,
       nil,
@@ -25,7 +19,20 @@ class SpreadsheetValidatorTest < Minitest::Test
       nil,
       '000-000-0000 not a valid phone number.'
     ]
-    assert_equal invalids, @test.invalid_line_reporter
+    assert_equal invalids, @test.invalid_phone_reporter
+  end
+
+  def test_invalid_date_reporter
+    invalids = [
+      nil,
+      '2016-02 not a valid date.',
+      nil,
+      '13/03/2016 not a valid date.',
+      '442016 not a valid date.',
+      nil,
+      'Yesterday not a valid date.'
+    ]
+    assert_equal invalids, @test.invalid_date_reporter
   end
 
   def test_hash_builder
