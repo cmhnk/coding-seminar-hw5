@@ -34,12 +34,19 @@ class SpreadsheetValidator
       valid ||= row['phone'].match(/^\W\d{3}\W\s[^0]\d{2}-\d{4}/)
       valid ||= row['phone'].match(/^[^0]\d{2}\.[^0]\d{2}\.\d{4}/)
       valid ||= row['phone'].match(/^\W\d{3}\W[^0]d{2}-\d{4}/)
-      if valid.nil?
-        invalid = "Line #{i + 1} invalid; #{row['phone']} not a valid phone number."
-        invalids << invalid
-      end
+
+      valid.nil? ? invalid = "#{row['phone']} not a valid phone number." : invalid = nil
+      invalids << invalid
     end
     invalids
+  end
+
+  def hash_builder
+    hash_results = []
+    invalid_line_reporter.each do |row|
+      hash_results << Hash[phone: row]
+    end
+    hash_results
   end
 
   # def phone_regexs

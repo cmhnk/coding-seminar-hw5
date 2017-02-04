@@ -17,10 +17,28 @@ class SpreadsheetValidatorTest < Minitest::Test
 
   def test_invalid_line_reporter
     invalids = [
-      'Line 3 invalid; (919)333-444 not a valid phone number.',
-      'Line 5 invalid; (1)2-3 not a valid phone number.',
-      'Line 7 invalid; 000-000-0000 not a valid phone number.'
+      nil,
+      nil,
+      '(919)333-444 not a valid phone number.',
+      nil,
+      '(1)2-3 not a valid phone number.',
+      nil,
+      '000-000-0000 not a valid phone number.'
     ]
     assert_equal invalids, @test.invalid_line_reporter
   end
+
+  def test_hash_builder
+    hash_results = [
+      {phone: nil},
+      {phone: nil},
+      {phone: '(919)333-444 not a valid phone number.'},
+      {phone: nil},
+      {phone: '(1)2-3 not a valid phone number.'},
+      {phone: nil},
+      {phone: '000-000-0000 not a valid phone number.'}
+    ]
+    assert_equal hash_results, @test.hash_builder
+  end
+
 end
