@@ -1,7 +1,9 @@
 class SpreadsheetValidator
-  attr_reader :csv, :keys
+
   require 'CSV'
   require_relative './string.rb'
+
+  attr_reader :csv, :keys
 
   def initialize(path)
     @csv = CSV.read(path)
@@ -14,7 +16,7 @@ class SpreadsheetValidator
 
   def invalid_phone_reporter
     invalids = []
-    data.each_with_index do |row, i|
+    data.each do |row|
       valid ||= row['phone'].match(/^\d{10}/)
       valid ||= row['phone'].match(/^[^0]\d{2}-[^0]\d{2}-\d{4}/)
       valid ||= row['phone'].match(/^\W\d{3}\W\s[^0]\d{2}-\d{4}/)
@@ -29,7 +31,7 @@ class SpreadsheetValidator
 
   def invalid_date_reporter
     invalids = []
-    data.each_with_index do |row, i|
+    data.each do |row|
       valid ||= row['joined'].match(/\d\/\d\/\d{2}/)
       valid ||= row['joined'].match(/\d\/\d\/\d{4}/)
       valid ||= row['joined'].match(/^[^2-9][0-2 | \/]\/[^4-9]\d\/\d{4}/)
