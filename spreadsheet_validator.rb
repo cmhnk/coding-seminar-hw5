@@ -62,20 +62,17 @@ class SpreadsheetValidator
   end
 
   def row_validation_reporter
-    validations = [
-      invalid_date_reporter,
+    [invalid_date_reporter,
       invalid_email_reporter,
       invalid_phone_reporter
     ]
-    validations.transpose
+    .transpose
   end
 
   def valid_lines
     total = 0
     row_validation_reporter.each do |row|
-      if row.compact.empty?
-        total += 1
-      end
+      row.compact.empty? ? total += 1 : next
     end
     total
   end
@@ -91,15 +88,15 @@ class SpreadsheetValidator
   def error_reporter
     accumulator = []
     row_validation_reporter.each.with_index(1) do |row, i|
-      if !row.compact.empty?
-        error = "ERROR: Line #{i} is invalid:\n"
-        row_errors = []
-        row.each do |error|
-          row_errors << error + " " + "\n" unless error.nil?
-        end
-        spacer = "\n"
-        accumulator << error + row_errors.join + spacer
+      next if row.compact.empty?
+      error = "ERROR: Line #{i} is invalid:\n"
+      row_errors = []
+      row.each do |error|
+        next if error.nil?
+        row_errors << error + " " + "\n"
       end
+      spacer = "\n"
+      accumulator << error + row_errors.join + spacer
     end
     accumulator.join
   end
