@@ -84,7 +84,6 @@ ERROR: Line 7 is invalid:
 Yesterday not a valid date.
 000-000-0000 not a valid phone number.
 
-
 "
     assert_equal expected, @test.print_to_screen
   end

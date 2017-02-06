@@ -11,7 +11,7 @@ class SpreadsheetValidator
   end
 
   def print_to_screen
-    string = "Checking your CSV...\n" + valid_line_reporter + "\n\n" + error_reporter + "\n"
+    "Checking your CSV...\n" + valid_line_reporter + "\n\n" + error_reporter
   end
 
   private
