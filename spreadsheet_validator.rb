@@ -44,6 +44,17 @@ class SpreadsheetValidator
     invalids
   end
 
+  def invalid_email_reporter
+    invalids = []
+    data.each do |row|
+      valid ||= row['email'].match(/(^[\w\-\.[^\@]]+)@([\w]+\.)+([a-zA-Z]{2,3})/)
+
+      invalid = valid.nil? ? "#{row['email']} not a valid email." : nil
+      invalids << invalid
+    end
+    invalids
+  end
+
   def hash_builder
     hash_results = []
     invalid_phone_reporter.each do |row|
@@ -58,3 +69,5 @@ end
 # /^[^2-9][0-2 | \/]\/[^4-9]\d\/\d{4}/
 # /\d{4}[\- | \/]\d{2}[\- | \/]\d{2}/
 # /^[^2-9][0-2][\- | \/][^4-9]\d[\- | \/]\d{4}/
+
+/([\w\-\.]+)@([\w]+\.)+([a-zA-Z]{2,3})/

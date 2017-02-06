@@ -35,6 +35,19 @@ class SpreadsheetValidatorTest < Minitest::Test
     assert_equal invalids, @test.invalid_date_reporter
   end
 
+  def test_invalid_email_reporter
+    invalids = [
+      nil,
+      'bob@bob@bob.com not a valid email.',
+      'cindy@cindy not a valid email.',
+      nil,
+      nil,
+      nil,
+      nil
+    ]
+    assert_equal invalids, @test.invalid_email_reporter
+  end
+
   def test_hash_builder
     hash_results = [
       {phone: nil},
