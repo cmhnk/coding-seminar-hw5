@@ -19,7 +19,7 @@ class SpreadsheetValidatorTest < Minitest::Test
       nil,
       '000-000-0000 not a valid phone number.'
     ]
-    assert_equal invalids, @test.invalid_phone_reporter
+    assert_equal invalids, @test.send(:invalid_phone_reporter)
   end
 
   def test_invalid_date_reporter
@@ -32,7 +32,7 @@ class SpreadsheetValidatorTest < Minitest::Test
       nil,
       'Yesterday not a valid date.'
     ]
-    assert_equal invalids, @test.invalid_date_reporter
+    assert_equal invalids, @test.send(:invalid_date_reporter)
   end
 
   def test_invalid_email_reporter
@@ -45,7 +45,7 @@ class SpreadsheetValidatorTest < Minitest::Test
       nil,
       nil
     ]
-    assert_equal invalids, @test.invalid_email_reporter
+    assert_equal invalids, @test.send(:invalid_email_reporter)
   end
 
   def test_row_validation_reporter
@@ -58,6 +58,34 @@ class SpreadsheetValidatorTest < Minitest::Test
       [nil, nil, nil],
       ['Yesterday not a valid date.', nil, '000-000-0000 not a valid phone number.']
     ]
-    assert_equal expected, @test.row_validation_reporter
+    assert_equal expected, @test.send(:row_validation_reporter)
+  end
+
+  def test_public_method
+expected = "Checking your CSV...
+There were 2 valid lines in your CSV.
+
+ERROR: Line 2 is invalid:
+2016-02 not a valid date.
+bob@bob@bob.com not a valid email.
+
+ERROR: Line 3 is invalid:
+cindy@cindy not a valid email.
+(919)333-444 not a valid phone number.
+
+ERROR: Line 4 is invalid:
+13/03/2016 not a valid date.
+
+ERROR: Line 5 is invalid:
+442016 not a valid date.
+(1)2-3 not a valid phone number.
+
+ERROR: Line 7 is invalid:
+Yesterday not a valid date.
+000-000-0000 not a valid phone number.
+
+
+"
+    assert_equal expected, @test.print_to_screen
   end
 end

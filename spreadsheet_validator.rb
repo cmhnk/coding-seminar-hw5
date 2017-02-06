@@ -10,6 +10,12 @@ class SpreadsheetValidator
     @keys = csv[0]
   end
 
+  def print_to_screen
+    string = "Checking your CSV...\n" + valid_line_reporter + "\n\n" + error_reporter + "\n"
+  end
+
+  private
+
   def data
     csv[1..-1].map { |row| Hash[keys.zip(row)] }
   end
@@ -61,10 +67,41 @@ class SpreadsheetValidator
       invalid_email_reporter,
       invalid_phone_reporter
     ]
-
     validations.transpose
   end
 
+  def valid_lines
+    total = 0
+    row_validation_reporter.each do |row|
+      if row.compact.empty?
+        total += 1
+      end
+    end
+    total
+  end
 
+  def valid_line_reporter
+    if valid_lines == 1
+      "There was 1 valid line in your CSV."
+    elsif valid_lines > 1
+      "There were #{valid_lines} valid lines in your CSV."
+    end
+  end
+
+  def error_reporter
+    accumulator = []
+    row_validation_reporter.each.with_index(1) do |row, i|
+      if !row.compact.empty?
+        error = "ERROR: Line #{i} is invalid:\n"
+        row_errors = []
+        row.each do |error|
+          row_errors << error + " " + "\n" unless error.nil?
+        end
+        spacer = "\n"
+        accumulator << error + row_errors.join + spacer
+      end
+    end
+    accumulator.join
+  end
 
 end
