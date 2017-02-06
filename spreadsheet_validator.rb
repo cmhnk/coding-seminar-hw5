@@ -55,19 +55,16 @@ class SpreadsheetValidator
     invalids
   end
 
-  def hash_builder
-    hash_results = []
-    invalid_phone_reporter.each do |row|
-      hash_results << Hash[phone: row]
-    end
-    hash_results
-  end
-end
-#
-# /\d\/\d\/\d{2}/
-# /\d\/\d\/\d{4}/
-# /^[^2-9][0-2 | \/]\/[^4-9]\d\/\d{4}/
-# /\d{4}[\- | \/]\d{2}[\- | \/]\d{2}/
-# /^[^2-9][0-2][\- | \/][^4-9]\d[\- | \/]\d{4}/
+  def row_validation_reporter
+    validations = [
+      invalid_date_reporter,
+      invalid_email_reporter,
+      invalid_phone_reporter
+    ]
 
-/([\w\-\.]+)@([\w]+\.)+([a-zA-Z]{2,3})/
+    validations.transpose
+  end
+
+
+
+end
